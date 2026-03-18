@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../database");
 
 async function main() {
   await prisma.user.createMany({
@@ -13,4 +12,8 @@ async function main() {
   console.log("Users seeded");
 }
 
-main().finally(() => prisma.$disconnect());
+main()
+  .catch((e) => console.error(e))
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
